@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `preparse`(
     `helpfulness` INT(2) NOT NULL,
     `clarity` INT(2) NOT NULL,
     `easiness` INT(2) NOT NULL,
-    `comment` VARCHAR(4000) NOT NULL,
+    -- `comment` VARCHAR(4000) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -23,5 +23,13 @@ CREATE TABLE IF NOT EXISTS `postparse`(
     `easiness` INT(2) NOT NULL,
     `sentiment` INT(3) NOT NULL,
     `overall` INT(3) NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments`(
+    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `uid` INT(10) UNSIGNED NOT NULL,
+    `comment` VARCHAR(4000) NOT NULL,
     PRIMARY KEY (`id`)
 );
