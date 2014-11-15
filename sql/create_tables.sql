@@ -15,12 +15,13 @@ CREATE TABLE IF NOT EXISTS `preparse`(
 
 DROP TABLE IF EXISTS `postparse`;
 CREATE TABLE IF NOT EXISTS `postparse`(
-    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(10) UNSIGNED NOT NULL,
     `prof` VARCHAR(50) NOT NULL,
     `school` VARCHAR(50) NOT NULL,
     `helpfulness` INT(2) NOT NULL,
     `clarity` INT(2) NOT NULL,
     `easiness` INT(2) NOT NULL,
     `sentiment` INT(3) NOT NULL,
+    `overall` INT(3) NOT NULL,
     PRIMARY KEY (`id`)
 );
