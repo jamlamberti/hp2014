@@ -33,7 +33,7 @@ def gen_graphs(C,L,out_dir,threshold):
         print("generation of hclust dendrogram failed, (prob too large) Ex: %s" % ex)
 
 
-def test():
+def cluster_profs():
     db = db_manager.DatabaseAccess('localhost', 'root', 'root', 'grades')
     db.connect()
     sql = "SELECT id, helpfulness, clarity, easiness, sentiment from postparse"
@@ -50,4 +50,6 @@ def test():
         sql = "INSERT into profClusters VALUES (null, %s, %s)"
         db.execute_all(sql%(r[i][0], C[i]))
     db.close()
-test()
+if __name__ == "__main__":
+    cluster_profs()
+    #cluster_students()

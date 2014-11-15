@@ -47,7 +47,7 @@ def sentiment_analysis(text):
         print('Error in sentiment call: ', response['statusInfo'])
     return 0
 
-if __name__ == "__main__":
+def run():
     db = db_manager.DatabaseAccess('localhost', 'root', 'root', 'grades')
     db.connect()
     r = get_to_parse(db)
@@ -73,6 +73,12 @@ if __name__ == "__main__":
         if insert_row(db, 'postparse', (pid, prof, school, helpful, clarity, easiness, sentiment, overall)):
             delete_row(db, 'preparse', (pid))
     db.close()
+if __name__ == "__main__":
     if (testing):
         sentiment_analysis('This is an awful line of code')
         sentiment_analysis('This is an amazing line of code!!')
+    else:
+        import time
+        while True:
+            time.sleep(30)
+            run()
