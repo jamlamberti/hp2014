@@ -79,31 +79,47 @@ while (professors_page_json['remaining'] != 0):
                 else:
 
                         professor_name_match = re.search(r'<div class=\"result-name\">(.*?</span>)\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
-                        if not professor_name_match:
-
+                        if not professor_name_match: 
                                 raise Exception('Could not find professor_name!')
 
                         helpfulness_match = re.search(r'helpfulness</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
                         if not helpfulness_match:
+                                helpfulness_match = None
+                                continue
                                 raise Exception('Could not find helpfulness_match!')
 
                         clarity_match = re.search(r'clarity</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
                         if not clarity_match:
+                                clarity_match = None
+                                continue
                                 raise Exception('Could not find clarity_match!')
 
                         easiness_match = re.search(r'easiness</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
                         if not easiness_match:
+                                easiness_match = None
+                                continue
                                 raise Exception('Could not find easiness_match!')
 
                         comments = re.findall(r'<p>\s+([^<>]*?)</p>', professor_page_raw, flags=re.S|re.I|re.M)
                         if not comments:
+                                comments = None
+                                continue
                                 raise Exception('Could not find comments!')
+                        if helpfulness_match is None:
+                            helpfulness = str(int(random.random()*50)/10.0)
+                        else:
+                            helpfulness = helpfulness_match.group(1)
+                        if clarity_match is None:
+                            clarity = str(int(random.random()*50)/10.0)
+                        else:
+                            clarity = clarity_match.group(1)
 
-                        helpfulness = helpfulness_match.group(1)
-                        clarity = clarity_match.group(1)
-                        easiness_match = easiness_match.group(1)
+                        if easiness_match is None:
+                            easiness = str(int(random.random()*50)/10.0)
+                        else:
+                            easiness = easiness_match.group(1)
         
-        ++index
+        index += 1
         url = "http://www.ratemyprofessors.com/find/professor/?department=&institution=%s&page=%s&queryoption=TEACHER&queryBy=schoolId&sid=%s" % (s_name, index, sid)
 
         professors_page = urllib2.urlopen(url)
