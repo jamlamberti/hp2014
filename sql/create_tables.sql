@@ -58,3 +58,16 @@ CREATE TABLE IF NOT EXISTS `studentClusters`(
     PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `courses`;
+CREATE TABLE IF NOT EXISTS `courses`(
+    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `crn` INT(10) NOT NULL,
+    `course` VARCHAR(10) NOT NULL,
+    `title` VARCHAR(75) NOT NULL,
+    `dist` VARCHAR(10) NOT NULL,
+    `sect` VARCHAR(10) NOT NULL,
+    `days` VARCHAR(10) NOT NULL,
+    `time` VARCHAR(25) NOT NULL,
+    `prof` VARCHAR(50),
+    PRIMARY KEY (`id`)
+);
