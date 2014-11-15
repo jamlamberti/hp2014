@@ -62,7 +62,8 @@ if __name__ == "__main__":
         for iid, uid, comment in comments:
             sentiment += float(sentiment_analysis(comment))*100
             delete_row(db, 'comments', iid)
-        sentiment /= len(comments)
+        if len(comments) > 0:
+            sentiment /= len(comments)
 
         #sentiment = float(sentiment_analysis(comment))*100
         #sentiment = float(0.78)*100

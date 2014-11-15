@@ -119,7 +119,7 @@ for state in state_match:
                 helpfulness = int(random.random()*50)
                 clarity = int(random.random()*50)
                 easiness = int(random.random()*50)
-                sql = "INSERT into preparse VALUES(null, '%s', '%s', %s, %s, %s, '%s')"
+                sql = "INSERT into preparse VALUES(null, '%s', '%s', %s, %s, %s)"
                 comments = [
                     "Worst professor I have ever had a Lehigh. I didn't learn anything from Haller, and I am normally a straight A student. This class was the biggest waste of time and credit hours, I wish that another teacher was available for the same course.",
                     " The only way to pass his class is to go to his office hours. It's pretty ridiculous that students HAVE to do that. The average for the midterm is extremely low, but he only cares about the final. Homework is required in every single lecture. Make sure he knows your name and go to his office hours. He's mean. ",
@@ -135,7 +135,14 @@ for state in state_match:
 
 
                 
-                args = (full_name, s_name.replace('+', ' '), helpfulness, clarity, easiness, random.choice(comments).replace("'", "\\'"))
+                args = (full_name, s_name.replace('+', ' '), helpfulness, clarity, easiness) #random.choice(comments).replace("'", "\\'"))
+                print sql%args
+                db.execute_all(sql%args)
+                sql = "SELECT LAST_INSERT_ID()"
+                r = db.execute_all(sql)
+                rid = r[0][0]
+                args = (rid, random.choice(comments).replace("'", "\\'"))
+                sql = "INSERT into comments VALUES(null, %s, '%s')"
                 print sql%args
                 db.execute_all(sql%args)
     break
