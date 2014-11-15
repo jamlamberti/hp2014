@@ -99,9 +99,25 @@ while (professors_page_json['remaining'] != 0):
                                 easiness_match = None
                                 continue
                                 raise Exception('Could not find easiness_match!')
-
+			
+			professor_name_match = professor_name_match.group(1)
                         comments = re.findall(r'<p>\s+([^<>]*?)</p>', professor_page_raw, flags=re.S|re.I|re.M)
-                        if not comments:
+                        first_name = re.search(r'<span class=\"pfname\">\s*(\w+)</span>', professor_name_match, flags=re.S|re.I|re.M)
+	                #print professor_name                
+	                if not first_name:
+	                    continue    
+	                    raise Exception('Could not first_name!')
+	            
+	                last_name = re.search(r'<span class=\"plname\">\s*(\w*)</span>', professor_name_match, flags=re.S|re.I|re.M)
+	                
+	                if not last_name:
+	                    continue
+	                    raise Exception('Could not find last_name!')
+	                
+	                full_name = first_name.group(1) + " " + last_name.group(1)
+
+
+			if not comments:
                                 comments = None
                                 continue
                                 raise Exception('Could not find comments!')
