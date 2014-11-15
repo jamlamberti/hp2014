@@ -86,7 +86,7 @@ class DatabaseAccess(object):
         except MySQLdb.Error as ex:
             self.conn.rollback()
             raise
-        r = self.conn.fetchall()
+        r = self.cursor.fetchall()
         self.lr_id = self.cursor.lastrowid
         self.conn.commit()
         return r
