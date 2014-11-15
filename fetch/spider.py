@@ -32,7 +32,6 @@ for state in state_match:
 		s_name = university[1]
 		
 		url = "http://www.ratemyprofessors.com/campusRatings.jsp?sid=%s" % sid
-		print url
 		university_page = urllib2.urlopen(url)
 		
 		if not university_page:
@@ -40,7 +39,7 @@ for state in state_match:
 		
 		university_page_raw = university_page.read()
 		
-		s_name.replace(" ", "+")
+		s_name = s_name.replace(" ", "+")
 		
 		url = "http://www.ratemyprofessors.com/search.jsp?queryBy=schoolId&schoolName=%s&sid=%s&queryoption=TEACHER&id=viewprofessors" % (s_name, sid)
 		
@@ -52,14 +51,12 @@ for state in state_match:
 		
 		professors_page_raw = professors_page.read()
 		
-		print professors_page_raw
-
 		professor_id_match = re.findall(r'tid=(\d+)', professors_page_raw, flags=re.S|re.I|re.M)
 		
 		if not professor_id_match:
 			
 			raise Exception('Could not find professors_match!')
-		
+		print "Found professor ids"
 		for professor_id in professor_id_match:
 			
 			professor_url = "http://www.ratemyprofessors.com/ShowRatings.jsp?tid=%s" % professor_id
@@ -78,7 +75,7 @@ for state in state_match:
 			
 				raise Exception('Could not find professor_grade!')
 			
-			if professor_grade == "0.0":
+			if professor_grade.group(1) == "0.0":
 				
 				continue
 			
@@ -87,7 +84,13 @@ for state in state_match:
 				professor_name = re.search(r'<div class=\"result-name\">(.*?)</span>\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
 				
 				if not professor_name:
-					
+								
 					raise Exception('Could not find professor_name!')
-				
-				
+
+				professor_name = professor_name.group(1)
+				print professor_name
+				professor_name = professor_name.replace("<span class=\"pf name\">", "")
+				professor_name = professor_name.replace("</span>", "")
+				print "-------------"			
+				print professor_name
+	break			
