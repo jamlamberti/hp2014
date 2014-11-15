@@ -37,6 +37,7 @@ html_file.close()
 s_name = s_name.replace(" ", "+")
 
 url = "http://www.ratemyprofessors.com/find/professor/?department=&institution=%s&page=1&queryoption=TEACHER&queryBy=schoolId&sid=%s" % (s_name,  sid)
+professors_page = urllib2.urlopen(url)
 if not professors_page:
 
         raise Exception('Could not find professors_page!')
@@ -78,7 +79,7 @@ while (professors_page_json['remaining'] != 0):
                 else:
 
                         professor_name_match = re.search(r'<div class=\"result-name\">(.*?</span>)\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
-                        if not professor_name:
+                        if not professor_name_match:
 
                                 raise Exception('Could not find professor_name!')
 
