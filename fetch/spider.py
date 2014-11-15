@@ -147,10 +147,11 @@ while (professors_page_json['remaining'] != 0):
                  	sql = "SELECT LAST_INSERT_ID()"
                  	r = db.execute_all(sql)
                  	rid = r[0][0]
-                 	args = (rid, random.choice(comments).replace("'", "\\'"))
-                 	sql = "INSERT into comments VALUES(null, %s, '%s')"
-                 	print sql%args
-                 	db.execute_all(sql%args)
+                 	for i in comments:
+                 	    args = (rid, i.strip().replace("'", "\\'"))
+                 	    sql = "INSERT into comments VALUES(null, %s, '%s')"
+                 	    print sql%args
+                 	    db.execute_all(sql%args)
 
 
 	index += 1
