@@ -16,6 +16,11 @@ def get_to_parse(conn):
     args = ()
     r = conn.execute_all(sql, )
     return r
+def get_comments(conn, pid):
+    sql = "SELECT * from comments where uid=%s"
+    args = (pid)
+    r = conn.execute_all(sql, args)
+    return r
 def insert_row(conn, table, args):
     sql = "INSERT into " + table + " VALUES(%s, '%s', '%s', %s, %s, %s, %s, %s)"
     print(sql)
@@ -47,12 +52,19 @@ if __name__ == "__main__":
     db.connect()
     r = get_to_parse(db)
     for row in r:
-        pid, prof, school, helpful, clarity, easiness, comment = row
+        pid, prof, school, helpful, clarity, easiness  = row
         pid = int(pid)
         helpful = int(helpful)
         clarity = int(clarity)
         easiness = int(easiness)
-        sentiment = float(sentiment_analysis(comment))*100
+        comments = get_comments(db, pid)
+        sentiment = 0
+        for iid, uid, comment in comments:
+            sentiment += float(sentiment_analysis(comment))*100
+            delete_row(db, 'comments', iid)
+        sentiment /= len(comments)
+
+        #sentiment = float(sentiment_analysis(comment))*100
         #sentiment = float(0.78)*100
         print(sentiment)
         overall = int(100*(helpful + clarity + easiness + sentiment)/(50+50+50+100))
