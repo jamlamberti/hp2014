@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python miner/miner.py
+python miner/miner.py &
