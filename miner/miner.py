@@ -1,5 +1,6 @@
 from __future__ import print_function
 import json
+testing = True
 try:
     import alchemyapi
 except:
@@ -23,5 +24,6 @@ def sentiment_analysis(text):
     else:
         print('Error in sentiment call: ', response['statusInfo'])
 if __name__ == "__main__":
-    sentiment_analysis('This is an awful line of code')
-    sentiment_analysis('This is an amazing line of code!!')
+    if (testing):
+        sentiment_analysis('This is an awful line of code')
+        sentiment_analysis('This is an amazing line of code!!')
