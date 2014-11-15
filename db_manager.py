@@ -94,5 +94,6 @@ class DatabaseAccess(object):
 def test_connect():
     da = DatabaseAccess('localhost', 'root', 'root', 'grader')
     da.connect()
+    da.close()
 if __name__ == "__main__":
     test_connect()
