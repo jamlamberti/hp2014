@@ -81,16 +81,27 @@ for state in state_match:
 			
 			else:
 				
-				professor_name = re.search(r'<div class=\"result-name\">(.*?)</span>\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
+				professor_name = re.search(r'<div class=\"result-name\">(.*?</span>)\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
 				
 				if not professor_name:
 								
 					raise Exception('Could not find professor_name!')
 
 				professor_name = professor_name.group(1)
-				print professor_name
-				professor_name = professor_name.replace("<span class=\"pf name\">", "")
-				professor_name = professor_name.replace("</span>", "")
-				print "-------------"			
-				print professor_name
+				first_name = re.search(r'<span class=\"pfname\">\s*(\w+)</span>', professor_name, flags=re.S|re.I|re.M)
+				print professor_name				
+				if not first_name:
+					continue	
+					raise Exception('Could not first_name!')
+			
+				last_name = re.search(r'<span class=\"plname\">\s*(\w*)</span>', professor_name, flags=re.S|re.I|re.M)
+				
+				if not last_name:
+					continue
+					raise Exception('Could not find last_name!')
+				
+				full_name = first_name.group(1) + " " + last_name.group(1)
+
+				print full_name
+				
 	break			
