@@ -65,4 +65,5 @@ for study_program in study_program_matches:
 		print professor_name
 		db.execute_all("UPDATE courses set prof='%s' where crn=%s"%(professor_name, crn))
 
+
 db.close()
