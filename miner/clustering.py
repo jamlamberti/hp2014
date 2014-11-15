@@ -45,5 +45,9 @@ def test():
     L = cluster(D)
     C = flatten(L, 30)
     gen_graphs(C, L, 'clusters', 30)
+    db.execute_all("truncate table profClusters")
+    for i in range(len(C)):
+        sql = "INSERT into profClusters VALUES (null, %s, %s)"
+        db.execute_all(sql%(r[i][0], C[i]))
     db.close()
 test()

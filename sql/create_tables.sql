@@ -33,3 +33,20 @@ CREATE TABLE IF NOT EXISTS `comments`(
     `comment` VARCHAR(4000) NOT NULL,
     PRIMARY KEY (`id`)
 );
+
+DROP TABLE IF EXISTS `profClusters`;
+CREATE TABLE IF NOT EXISTS `profClusters`(
+    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `uid` INT(10) UNSIGNED NOT NULL,
+    `cid` INT(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `studentClusters`;
+CREATE TABLE IF NOT EXISTS `studentClusters`(
+    `id` INT(10) UNSIGNED NOT NULL,
+    `sid` INT(10) UNSIGNED NOT NULL,
+    `cid` INT(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
