@@ -1,5 +1,6 @@
 import urllib2
 import re
+<<<<<<< HEAD
 import os
 import json
 try:
@@ -10,6 +11,20 @@ except:
 	parentdir = os.path.dirname(currentdir)
 	sys.path.insert(0,parentdir)
 	import db_manager
+=======
+import random
+try:
+    import db_manager
+except:
+    import os, inspect, sys
+    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    parentdir = os.path.dirname(currentdir)
+    sys.path.insert(0,parentdir)
+    import db_manager
+
+db = db_manager.DatabaseAccess('localhost', 'root', 'root', 'grades')
+db.connect()
+>>>>>>> e2ef9d46e2fdac92bd852b405a5de60dfb3fdd83
 
 db = db_manager.DatabaseAccess('localhost', 'root', 'root', 'grades')
 db.connect()
@@ -50,6 +65,7 @@ s_name = "Princeton University"
 
 url = "http://www.ratemyprofessors.com/campusRatings.jsp?sid=780"
 
+<<<<<<< HEAD
 university_page = urllib2.urlopen(url)
 
 if not university_page:
@@ -173,4 +189,133 @@ while (professors_page_json['remaining'] != 0):
 	professors_page_raw = professors_page.read()
 	professors_page_json = json.loads(professors_page_raw)
 
+=======
+if not state_match:
+    raise Exception('Could not find state_match')
+
+for state in state_match:
+    
+    url = "http://www.ratemyprofessors.com/search.jsp?queryoption=SCHOOL&queryBy=schoolLocation&stateselect=%s" % state[0]
+    statePage = urllib2.urlopen(url)
+    
+    if not statePage:
+        raise Exception('Could not find statePage!')
+    
+    statePageRaw = statePage.read()
+    
+    university_match = re.findall(r'<a href="/campusRatings.jsp\?sid=(\d+)">\s*<span class="name">(.*?)</span>', statePageRaw, flags=re.S|re.I|re.M)
+    
+    if not university_match:
+    
+        raise Exception('Could not find university_match!')
+    
+    for university in university_match:
+        
+        sid = university[0]
+        s_name = university[1]
+        
+        url = "http://www.ratemyprofessors.com/campusRatings.jsp?sid=%s" % sid
+        university_page = urllib2.urlopen(url)
+        
+        if not university_page:
+            raise Exception('Could not find university_page!')
+        
+        university_page_raw = university_page.read()
+        
+        s_name = s_name.replace(" ", "+")
+        
+        url = "http://www.ratemyprofessors.com/search.jsp?queryBy=schoolId&schoolName=%s&sid=%s&queryoption=TEACHER&id=viewprofessors" % (s_name, sid)
+        
+        professors_page = urllib2.urlopen(url)
+        
+        if not professors_page:
+            
+            raise Exception('Could not find professors_page!')
+        
+        professors_page_raw = professors_page.read()
+        
+        professor_id_match = re.findall(r'tid=(\d+)', professors_page_raw, flags=re.S|re.I|re.M)
+        
+        if not professor_id_match:
+            
+            raise Exception('Could not find professors_match!')
+        print "Found professor ids"
+        for professor_id in professor_id_match:
+            
+            professor_url = "http://www.ratemyprofessors.com/ShowRatings.jsp?tid=%s" % professor_id
+            
+            professor_page = urllib2.urlopen(professor_url)
+            
+            if not professor_page:
+        
+                raise Exception('Could not find professor_page!')
+            
+            professor_page_raw = professor_page.read()
+            
+            professor_grade = re.search(r'grade">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+            
+            if not professor_grade:
+            
+                raise Exception('Could not find professor_grade!')
+            
+            if professor_grade.group(1) == "0.0":
+                
+                continue
+            
+            else:
+                
+                professor_name = re.search(r'<div class=\"result-name\">(.*?</span>)\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                
+                if not professor_name:
+                                
+                    raise Exception('Could not find professor_name!')
+
+                professor_name = professor_name.group(1)
+                first_name = re.search(r'<span class=\"pfname\">\s*(\w+)</span>', professor_name, flags=re.S|re.I|re.M)
+                #print professor_name                
+                if not first_name:
+                    continue    
+                    raise Exception('Could not first_name!')
+            
+                last_name = re.search(r'<span class=\"plname\">\s*(\w*)</span>', professor_name, flags=re.S|re.I|re.M)
+                
+                if not last_name:
+                    continue
+                    raise Exception('Could not find last_name!')
+                
+                full_name = first_name.group(1) + " " + last_name.group(1)
+
+                print full_name
+                
+                helpfulness = int(random.random()*50)
+                clarity = int(random.random()*50)
+                easiness = int(random.random()*50)
+                sql = "INSERT into preparse VALUES(null, '%s', '%s', %s, %s, %s)"
+                comments = [
+                    "Worst professor I have ever had a Lehigh. I didn't learn anything from Haller, and I am normally a straight A student. This class was the biggest waste of time and credit hours, I wish that another teacher was available for the same course.",
+                    " The only way to pass his class is to go to his office hours. It's pretty ridiculous that students HAVE to do that. The average for the midterm is extremely low, but he only cares about the final. Homework is required in every single lecture. Make sure he knows your name and go to his office hours. He's mean. ",
+                    " Literally all he cares about is money and drinking scotch on the porch of his big house with a long ass driveway. Trust me, he'll tell you all about it every class.",
+                    " Great professor who is always willing to help. Jokes with students but takes his class very seriously. He knows what he is doing and just wants you to know what your doing. His biggest concern is that you get a job and he wants to teach you everything he knows in order to accomplish that. That said, his class his hard. Make sure he knows your name. ",
+                    " Wish there were other options for professors teaching the same courses as he. ",
+                    " One of the best in the ECE department. His lectures are not only very entertaining at times, but also very good at explaining the material. He has high expectations but that means most students learn a lot and do well. ",
+                    " Haller is just amazing. At the end in senior project, he really makes sure you pull together everything you've learned in ECE. And above that he's very dedicated to see all his students succeed in class and in life! ",
+                    " By far THE BEST professor I've ever had!! His classes are hard but he makes them extremely fun to be at! As long as you're dedicated, he will be extremely helpful to you. Most students finish his course with an A, but that's because he expects only the best! ",
+                    " Best prof ever! Lectures are extremely fun and entertaining! Topics covered are very hard, but he makes them easier to understand. One of the best ECE prof out there! And remember to model your circuits! "]
+
+
+
+
+                
+                args = (full_name, s_name.replace('+', ' '), helpfulness, clarity, easiness) #random.choice(comments).replace("'", "\\'"))
+                print sql%args
+                db.execute_all(sql%args)
+                sql = "SELECT LAST_INSERT_ID()"
+                r = db.execute_all(sql)
+                rid = r[0][0]
+                args = (rid, random.choice(comments).replace("'", "\\'"))
+                sql = "INSERT into comments VALUES(null, %s, '%s')"
+                print sql%args
+                db.execute_all(sql%args)
+    break
+>>>>>>> e2ef9d46e2fdac92bd852b405a5de60dfb3fdd83
 db.close()
