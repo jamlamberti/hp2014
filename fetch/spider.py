@@ -12,6 +12,123 @@ except:
 
 db = db_manager.DatabaseAccess('localhost', 'root', 'root', 'grades')
 db.connect()
+sid = 780
+s_name = "Princeton University"
+
+url = "http://www.ratemyprofessors.com/campusRatings.jsp?sid=780"
+university_page = urllib2.urlopen(url)
+
+if not university_page:
+        raise Exception('Could not find university_page!')
+
+if not os.path.exists(s_name):
+        os.makedirs(s_name)
+
+save_path = '~/%s' % s_name
+
+university_page_raw = university_page.read()
+
+html_file = open("%s/princeton_university.txt" % (s_name), "w+")
+html_file.write(university_page_raw)
+html_file.close()
+
+s_name = s_name.replace(" ", "+")
+
+url = "http://www.ratemyprofessors.com/find/professor/?department=&institution=%s&page=1&queryoption=TEACHER&queryBy=schoolId&sid=%s" % (s_name,  sid)
+if not professors_page:
+
+        raise Exception('Could not find professors_page!')
+
+
+professors_page_raw = professors_page.read()
+professors_page_json = json.loads(professors_page_raw)
+
+index = 0
+
+professors_page = urllib2.urlopen(url)
+while (professors_page_json['remaining'] != 0):
+
+        professors = professors_page_json['professors']
+
+        for professor in professors:
+                teacher_id = professor['tid']
+
+                professor_url = "http://www.ratemyprofessors.com/ShowRatings.jsp?tid=%s" % teacher_id
+
+                professor_page = urllib2.urlopen(professor_url)
+
+                if not professor_page:
+
+                        raise Exception('Could not find professor_page!')
+
+                professor_page_raw = professor_page.read()
+
+                professor_grade = re.search(r'grade">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+
+                if not professor_grade:
+
+                        raise Exception('Could not find professor_grade!')
+
+                if professor_grade.group(1) == "0.0":
+
+                        continue
+
+                else:
+
+                        professor_name_match = re.search(r'<div class=\"result-name\">(.*?</span>)\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        if not professor_name:
+
+                                raise Exception('Could not find professor_name!')
+
+                        helpfulness_match = re.search(r'helpfulness</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        if not helpfulness_match:
+                                raise Exception('Could not find helpfulness_match!')
+
+                        clarity_match = re.search(r'clarity</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        if not clarity_match:
+                                raise Exception('Could not find clarity_match!')
+
+                        easiness_match = re.search(r'easiness</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        if not easiness_match:
+                                raise Exception('Could not find easiness_match!')
+
+                        comments = re.findall(r'<p>\s+([^<>]*?)</p>', professor_page_raw, flags=re.S|re.I|re.M)
+                        if not comments:
+                                raise Exception('Could not find comments!')
+
+                        helpfulness = helpfulness_match.group(1)
+                        clarity = clarity_match.group(1)
+                        easiness_match = easiness_match.group(1)
+        
+        ++index
+        url = "http://www.ratemyprofessors.com/find/professor/?department=&institution=%s&page=%s&queryoption=TEACHER&queryBy=schoolId&sid=%s" % (s_name, index, sid)
+
+        professors_page = urllib2.urlopen(url)
+
+        if not professors_page:
+
+                raise Exception('Could not find professors_page!')
+
+
+        professors_page_raw = professors_page.read()
+        professors_page_json = json.loads(professors_page_raw)
+
+
+        sql = "INSERT into preparse VALUES(null, '%s', '%s', %s, %s, %s)"
+
+        args = (full_name, s_name.replace('+', ' '), helpfulness, clarity, easiness) #random.choice(comments).replace("'", "\\'"))
+        print sql%args
+        db.execute_all(sql%args)
+        sql = "SELECT LAST_INSERT_ID()"
+        r = db.execute_all(sql)
+        rid = r[0][0]
+        args = (rid, random.choice(comments).replace("'", "\\'"))
+        sql = "INSERT into comments VALUES(null, %s, '%s')"
+        print sql%args
+        db.execute_all(sql%args)
+
+db.close()
+break
 
 homeURL = 'http://www.ratemyprofessors.com/'
 
