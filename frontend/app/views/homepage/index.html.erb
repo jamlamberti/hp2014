@@ -28,7 +28,7 @@ $(document).ready(function() {
   header: {
     left:   'title',
     center: '',
-    right:  'today agendaWeek month prev,next'
+    right:  'today prev,next'
   },
   events: [
   <% (0..@hash_of_professors.to_a.length-1).each do |i|%>
@@ -59,18 +59,15 @@ function toggleEvent (id) {
   {
     //bring it back from hash_of_professors
     var newEvents = [];
-    alert(hash_of_professors[id]);
     for (var i = hash_of_professors[id].length - 1; i >= 0; i--) {
-      for (var j = hash_of_professors[id][i].length - 1; j >= 0; j--) {
         newEvents.push({
-          title: hash_of_professors[id][i][j]["title"],
-          id: hash_of_professors[id][i][j]["id"],
-          start: hash_of_professors[id][i][j]["start"],
-          end: hash_of_professors[id][i][j]["end"],
-          difficulty: hash_of_professors[id][i][j]["difficulty"]
+          title: hash_of_professors[id][i]["title"],
+          id: hash_of_professors[id][i]["id"],
+          start: hash_of_professors[id][i]["start"],
+          end: hash_of_professors[id][i]["end"],
+          difficulty: hash_of_professors[id][i]["difficulty"]
         });
       };
-    };
     $('#calendar').fullCalendar('addEventSource',{
       events : newEvents
     });
@@ -79,7 +76,6 @@ function toggleEvent (id) {
   }
   else //it needs to be removed
   {
-    alert(id);
     hash_of_professors[id] = $('#calendar').fullCalendar('clientEvents', id);
     $('#calendar').fullCalendar('removeEvents', id);
     removedElements[id] = true; //it's been removed
