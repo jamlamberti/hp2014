@@ -32,17 +32,19 @@ $(document).ready(function() {
   },
   events: [
   <% (0..@hash_of_professors.to_a.length-1).each do |i|%>
+  <% (0..@hash_of_professors.to_a[i][1].length-1).each do |j|%>
   {
-    <% value = @hash_of_professors.to_a[i][1] %> 
-    title: '<%= value["teacher"] %>',
+    <% value = @hash_of_professors.to_a[i][1][j] %> 
+    title: '<%= value["title"] %>',
     id: '<%= @hash_of_professors.to_a[i][0]%>',
     start: '<%= value["date"] + "T" + value["startTime"] %>',
     end: '<%= value["date"] + "T" + value["endTime"] %>',
     difficulty: '<%= value["difficulty"] %>'
   }<% if @hash_of_professors.to_a.length-1 != i%>, <% end %>
   <% end %>
+  <% end %>
   ]
-})
+});
   var object = document.getElementsByClassName('classList')
   for (var i = object.length - 1; i >= 0; i--) {
     object.item(i).addEventListener("click", function(){
@@ -57,14 +59,17 @@ function toggleEvent (id) {
   {
     //bring it back from hash_of_professors
     var newEvents = [];
+    alert(hash_of_professors[id]);
     for (var i = hash_of_professors[id].length - 1; i >= 0; i--) {
-      newEvents.push({
-        title: hash_of_professors[id][i]["title"],
-        id: hash_of_professors[id][i]["id"],
-        start: hash_of_professors[id][i]["start"],
-        end: hash_of_professors[id][i]["end"],
-        difficulty: hash_of_professors[id][i]["difficulty"]
-      });
+      for (var j = hash_of_professors[id][i].length - 1; j >= 0; j--) {
+        newEvents.push({
+          title: hash_of_professors[id][i][j]["title"],
+          id: hash_of_professors[id][i][j]["id"],
+          start: hash_of_professors[id][i][j]["start"],
+          end: hash_of_professors[id][i][j]["end"],
+          difficulty: hash_of_professors[id][i][j]["difficulty"]
+        });
+      };
     };
     $('#calendar').fullCalendar('addEventSource',{
       events : newEvents
@@ -74,6 +79,7 @@ function toggleEvent (id) {
   }
   else //it needs to be removed
   {
+    alert(id);
     hash_of_professors[id] = $('#calendar').fullCalendar('clientEvents', id);
     $('#calendar').fullCalendar('removeEvents', id);
     removedElements[id] = true; //it's been removed
@@ -90,7 +96,7 @@ function toggleEvent (id) {
   <div style="width: 100%; overflow: hidden;">
     <div id='calendar' style="width: 900px; float: left;"> </div>
     <div style="margin-left: 940px;">  <%@hash_of_professors.each do |id, other_data | %>
-     <p id="<%=id%>" class="classList"> Course: <%=other_data["title"] %> </br> </p>
+     <p id="<%=id%>" class="classList"> Course: <%=other_data[0]["title"] %> </br> </p>
      <%end%>
    </div>
  </div>
