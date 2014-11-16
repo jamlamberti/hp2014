@@ -5,12 +5,23 @@
 	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 </head>
 <script type="text/javascript">
+function update_average_difficulty () {
+  var arrOfEvents = $('#calendar').fullCalendar('clientEvents');
+  var total = 0;
+  var count = 0;
+  for (var i = arrOfEvents.length - 1; i >= 0; i--) {
+    total += parseInt(arrOfEvents[i]["difficulty"]);
+    count+=1;
+  };
+  var average = total / count;
+  document.getElementById('average_difficulty').innerHTML = "The average difficulty is: " + average;
+}
 var removedElements = [];
 var hash_of_professors = [];
 $(document).ready(function() {
-
   $('#calendar').fullCalendar({
    eventClick: function(calEvent, jsEvent, view) {
+    toggleEvent(calEvent.id);
   },
   defaultView: 'agendaWeek',
   height: 600,
@@ -26,7 +37,8 @@ $(document).ready(function() {
     title: '<%= value["teacher"] %>',
     id: '<%= @hash_of_professors.to_a[i][0]%>',
     start: '<%= value["date"] + "T" + value["startTime"] %>',
-    end: '<%= value["date"] + "T" + value["endTime"] %>'
+    end: '<%= value["date"] + "T" + value["endTime"] %>',
+    difficulty: '<%= value["difficulty"] %>'
   }<% if @hash_of_professors.to_a.length-1 != i%>, <% end %>
   <% end %>
   ]
@@ -50,14 +62,14 @@ function toggleEvent (id) {
         title: hash_of_professors[id][i]["title"],
         id: hash_of_professors[id][i]["id"],
         start: hash_of_professors[id][i]["start"],
-        end: hash_of_professors[id][i]["end"]
+        end: hash_of_professors[id][i]["end"],
+        difficulty: hash_of_professors[id][i]["difficulty"]
       });
     };
     $('#calendar').fullCalendar('addEventSource',{
       events : newEvents
     });
     $('#calendar').fullCalendar('rerenderEvents');
-
     removedElements[id] = false; //it's back to existing
   }
   else //it needs to be removed
@@ -66,6 +78,7 @@ function toggleEvent (id) {
     $('#calendar').fullCalendar('removeEvents', id);
     removedElements[id] = true; //it's been removed
   }
+  update_average_difficulty();
 }
 </script>
 <div class="page-header">
@@ -73,16 +86,12 @@ function toggleEvent (id) {
 </div>
 
 <body>
-
+  <p id='average_difficulty'>The average difficulty is: <%= @average_difficulty %></p>
   <div style="width: 100%; overflow: hidden;">
     <div id='calendar' style="width: 900px; float: left;"> </div>
     <div style="margin-left: 940px;">  <%@hash_of_professors.each do |id, other_data | %>
-
      <p id="<%=id%>" class="classList"> Course: <%=other_data["title"] %> </br> </p>
      <%end%>
-
-
-     
-     </div>
    </div>
- </body>
+ </div>
+</body>
