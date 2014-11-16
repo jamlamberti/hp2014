@@ -33,6 +33,12 @@ def d2date(d):
     else:
         temp = friday
     return temp.strftime("%Y-%m-%d")
+def weighted_random(a):
+    max_val = a[-1][0]
+    rand = random.random()*max_val
+    for i in a:
+        if i[0] > rand:
+            return i
 courses_by_dept = {}
 all_courses = []
 db = db_manager.DatabaseAccess('localhost', 'root', 'root', 'grades')
@@ -84,22 +90,24 @@ for i in range(ugrads):
     major = random.choice(courses_by_dept.keys())
     classes = []
     for j in range(in_major):
-        classes.append(random.choice(courses_by_dept[major]))
+        #classes.append(random.choice(courses_by_dept[major]))
+        classes.append(weighted_random(courses_by_dept[major]))
     for j in range(out_of_major):
-        classes.append(random.choice(all_courses))
+        #classes.append(random.choice(all_courses))
+        classes.append(weighted_random(all_courses))
     schedules.append([major, classes])
 #print schedules
 major = "COS"
 schedule = []
 for i in range(7):
-    c = random.choice(courses_by_dept[major])
+    c = weighted_random(courses_by_dept[major])
     while c[0] in schedule:
-        c = random.choice(courses_by_dept[major])
+        c = weighted_random(courses_by_dept[major])
     schedule.append(c)
 for i in range(3):
-    c = random.choice(all_courses)
+    c = weighted_random(all_courses)
     while c[0] in schedule:
-        c = random.choice(all_courses)
+        c = weighted_random(all_courses)
     schedule.append(c)
 f = open('frontend/public/data.json', 'w')
 # Convert schedule to JSON
