@@ -51,6 +51,9 @@ class DatabaseAccess(object):
 
     def execute(self,sql,*args):
         try:
+            if self.cursor is None:
+                self.close()
+                self.connect()
             self.cursor.execute(sql,args)
             self.conn.commit()
         except MySQLdb.OperationalError, ex:
@@ -75,6 +78,9 @@ class DatabaseAccess(object):
 
     def execute_all(self,sql,*args):
         try:
+            if self.cursor is None:
+                self.close()
+                self.connect()
             self.cursor.execute(sql,args)
             self.conn.commit()
         except MySQLdb.OperationalError, ex:
@@ -86,6 +92,9 @@ class DatabaseAccess(object):
         except MySQLdb.Error as ex:
             self.conn.rollback()
             raise
+        except:
+            print sql
+            print args
         r = self.cursor.fetchall()
         self.lr_id = self.cursor.lastrowid
         self.conn.commit()

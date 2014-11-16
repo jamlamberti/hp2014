@@ -1,8 +1,9 @@
-
 import urllib2
 import re
 import json
 import random
+import os
+
 try:
     import db_manager
 except:
@@ -77,33 +78,83 @@ while (professors_page_json['remaining'] != 0):
                         continue
 
                 else:
-
-                        professor_name_match = re.search(r'<div class=\"result-name\">(.*?</span>)\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
-                        if not professor_name_match:
-
+			professor_name_match = re.search(r'<div class=\"result-name\">(.*?</span>)\s*</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        if not professor_name_match: 
                                 raise Exception('Could not find professor_name!')
 
-                        helpfulness_match = re.search(r'helpfulness</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        helpfulness_match = re.search(r'helpfulness</div>\s*<div class=\"rating\">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
                         if not helpfulness_match:
+                                helpfulness_match = None
+                                continue
                                 raise Exception('Could not find helpfulness_match!')
 
-                        clarity_match = re.search(r'clarity</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        clarity_match = re.search(r'clarity</div>\s*<div class=\"rating\">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
                         if not clarity_match:
+                                clarity_match = None
+                                continue
                                 raise Exception('Could not find clarity_match!')
 
-                        easiness_match = re.search(r'easiness</div>\s*<div class=/"rating/">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
+                        easiness_match = re.search(r'easiness</div>\s*<div class=\"rating\">(\d\.\d)</div>', professor_page_raw, flags=re.S|re.I|re.M)
                         if not easiness_match:
+                                easiness_match = None
+                                continue
                                 raise Exception('Could not find easiness_match!')
-
+			
+			professor_name_match = professor_name_match.group(1)
                         comments = re.findall(r'<p>\s+([^<>]*?)</p>', professor_page_raw, flags=re.S|re.I|re.M)
-                        if not comments:
-                                raise Exception('Could not find comments!')
+                        first_name = re.search(r'<span class=\"pfname\">\s*(\w+)</span>', professor_name_match, flags=re.S|re.I|re.M)
+	                #print professor_name                
+	                if not first_name:
+	                    continue    
+	                    raise Exception('Could not first_name!')
+	            
+	                last_name = re.search(r'<span class=\"plname\">\s*(\w*)</span>', professor_name_match, flags=re.S|re.I|re.M)
+	                
+	                if not last_name:
+	                    continue
+	                    raise Exception('Could not find last_name!')
+	                
+	                full_name = first_name.group(1) + " " + last_name.group(1)
 
-                        helpfulness = helpfulness_match.group(1)
-                        clarity = clarity_match.group(1)
-                        easiness_match = easiness_match.group(1)
+
+			if not comments:
+                                comments = None
+                                continue
+                                raise Exception('Could not find comments!')
+                        if helpfulness_match is None:
+                            helpfulness = str(int(random.random()*50)/10.0)
+                        else:
+                            helpfulness = helpfulness_match.group(1)
+                        if clarity_match is None:
+                            clarity = str(int(random.random()*50)/10.0)
+                        else:
+                            clarity = clarity_match.group(1)
+
+                        if easiness_match is None:
+                            easiness = str(int(random.random()*50)/10.0)
+                        else:
+                            easiness = easiness_match.group(1)
+			
+			print "helpfullness: %s"  % helpfulness
+			print "clarity: %s" % clarity
+			print "easiness: %s" % easiness
         
-        ++index
+        		sql = "INSERT into preparse VALUES(null, '%s', '%s', %s, %s, %s)"
+
+                 	args = (full_name, s_name.replace('+', ' '), helpfulness, clarity, easiness) #random.choice(comments).replace("'", "\\'"))
+                 	print sql%args
+                 	db.execute_all(sql%args)
+                 	sql = "SELECT LAST_INSERT_ID()"
+                 	r = db.execute_all(sql)
+                 	rid = r[0][0]
+                 	for i in comments:
+                 	    args = (rid, i.strip().replace("'", "\\'"))
+                 	    sql = "INSERT into comments VALUES(null, %s, '%s')"
+                 	    print sql%args
+                 	    db.execute_all(sql%args)
+
+
+	index += 1
         url = "http://www.ratemyprofessors.com/find/professor/?department=&institution=%s&page=%s&queryoption=TEACHER&queryBy=schoolId&sid=%s" % (s_name, index, sid)
 
         professors_page = urllib2.urlopen(url)
@@ -117,20 +168,7 @@ while (professors_page_json['remaining'] != 0):
         professors_page_json = json.loads(professors_page_raw)
 
 
-        sql = "INSERT into preparse VALUES(null, '%s', '%s', %s, %s, %s)"
-
-        args = (full_name, s_name.replace('+', ' '), helpfulness, clarity, easiness) #random.choice(comments).replace("'", "\\'"))
-        print sql%args
-        db.execute_all(sql%args)
-        sql = "SELECT LAST_INSERT_ID()"
-        r = db.execute_all(sql)
-        rid = r[0][0]
-        args = (rid, random.choice(comments).replace("'", "\\'"))
-        sql = "INSERT into comments VALUES(null, %s, '%s')"
-        print sql%args
-        db.execute_all(sql%args)
-
-db.close()
+        db.close()
 
 #homeURL = 'http://www.ratemyprofessors.com/'
 #
