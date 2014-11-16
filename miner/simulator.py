@@ -108,6 +108,8 @@ for i in schedule:
     r = db.execute_all(sql)
     cid, crn, course, title, dist, sect, days, t, prof = r[0]
     sql = "SELECT * from postparse where prof='%s'"%prof
+    if prof is None:
+        prof = ""
     r = db.execute_all(sql)
     try:
         difficulty = int(r[0][0])
