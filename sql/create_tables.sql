@@ -71,3 +71,14 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `prof` VARCHAR(50),
     PRIMARY KEY (`id`)
 );
+
+DROP TABLE IF EXISTS `students`;
+CREATE TABLE IF NOT EXISTS `students`(
+    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `sid` INT(10) UNSIGNED NOT NULL,
+    `crn` INT(10) UNSIGNED NOT NULL,
+    `rating` INT(50) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+

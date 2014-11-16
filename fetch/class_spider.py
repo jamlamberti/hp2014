@@ -65,7 +65,7 @@ for study_program in study_program_matches:
 		if not professor_name_match:
 			continue
 			raise Exception('Could not find professor_name_match!')
-		professor_name = professor_name_match.group(1).replace("\n" , "").replace("\t", "").replace("     ", " ")
+		professor_name = professor_name_match.group(1).replace("\n" , "").replace("\t", "").replace("  ", " ").strip()
 		print professor_name
 		db.execute_all("UPDATE courses set prof='%s' where crn=%s"%(professor_name, crn))
 
