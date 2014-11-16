@@ -62,24 +62,24 @@ for row in r:
         overall = int(random.random()*100)
     if course not in courses_by_dept:
         courses_by_dept[course] = []
-    courses_by_dept[course].append([cid, prof, overall])
-    all_courses.append([cid, prof, overall])
+    courses_by_dept[course].append([cid, prof, overall, overall])
+    all_courses.append([cid, prof, overall, overall])
 
 # Normalize!
 total = 0
 for i in range(len(all_courses)):
-    cid, prof, overall = all_courses[i]
+    cid, prof, overall, _ = all_courses[i]
     total += overall
-    all_courses[i] = [cid, prof, total]
+    all_courses[i] = [cid, prof, overall, total]
 max_all = total
 #print max_all
 depts = courses_by_dept.keys()
 for key in depts:
     total = 0
     for i in range(len(courses_by_dept[course])):
-        cid, prof, overall = courses_by_dept[course][i]
+        cid, prof, overall, _ = courses_by_dept[course][i]
         total+= overall
-        courses_by_dept[course][i] = [cid, prof, total]
+        courses_by_dept[course][i] = [cid, prof, overall, total]
 # Compute statistics for each prof.
 #print all_courses
 #print courses_by_dept
@@ -94,9 +94,23 @@ for i in range(ugrads):
     for j in range(in_major):
         #classes.append(random.choice(courses_by_dept[major]))
         classes.append(weighted_random(courses_by_dept[major]))
+        cid = classes[-1][0]
+        overall = classes[-1][2]
+        rating = int(min(random.gauss(overall, 10), 50))
+        sql = "INSERT into students VALUES(null, %s, %s, %s)"
+        args = (i, cid, rating)
+        print sql%args
+        db.execute_all(sql%args)
     for j in range(out_of_major):
         #classes.append(random.choice(all_courses))
         classes.append(weighted_random(all_courses))
+        cid = classes[-1][0]
+        overall = classes[-1][2]
+        rating = int(min(random.gauss(overall, 10), 50))
+        sql = "INSERT into students VALUES(null, %s, %s, %s)"
+        args = (i, cid, rating)
+        print sql%args
+        db.execute_all(sql%args)
     schedules.append([major, classes])
 #print schedules
 major = "COS"
