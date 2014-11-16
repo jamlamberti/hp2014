@@ -1,22 +1,17 @@
-{'difficulty': 32, 'startTime': '13:30:00', 'title': 'Integ/Quantitative Intro to Nat Sci III', 'date': '2014-11-11', 'endTime': '14:50:00', 'courseNumber': 'COS 235', 'id': 936, 'teacher': 'Mala    Murthy '}
-{'difficulty': 32, 'startTime': '13:30:00', 'title': 'Integ/Quantitative Intro to Nat Sci III', 'date': '2014-11-13', 'endTime': '14:50:00', 'courseNumber': 'COS 235', 'id': 936, 'teacher': 'Mala    Murthy '}
-{'difficulty': 37, 'startTime': '13:30:00', 'title': 'Interacting with Data', 'date': '2014-11-11', 'endTime': '14:50:00', 'courseNumber': 'COS 424', 'id': 366, 'teacher': 'Barbara    Engelhardt   '}
-{'difficulty': 37, 'startTime': '13:30:00', 'title': 'Interacting with Data', 'date': '2014-11-13', 'endTime': '14:50:00', 'courseNumber': 'COS 424', 'id': 366, 'teacher': 'Barbara    Engelhardt   '}
-{'difficulty': 11, 'startTime': '11:00:00', 'title': 'General Computer Science', 'date': '2014-11-11', 'endTime': '11:50:00', 'courseNumber': 'COS 126', 'id': 356, 'teacher': None}
-{'difficulty': 11, 'startTime': '11:00:00', 'title': 'General Computer Science', 'date': '2014-11-13', 'endTime': '11:50:00', 'courseNumber': 'COS 126', 'id': 356, 'teacher': None}
-{'difficulty': 34, 'startTime': '10:00:00', 'title': 'Integ/Quantitative Intro to Nat Sci II', 'date': '2014-11-10', 'endTime': '10:50:00', 'courseNumber': 'COS 233', 'id': 926, 'teacher': 'Joshua  W. Shaevitz '}
-{'difficulty': 34, 'startTime': '10:00:00', 'title': 'Integ/Quantitative Intro to Nat Sci II', 'date': '2014-11-12', 'endTime': '10:50:00', 'courseNumber': 'COS 233', 'id': 926, 'teacher': 'Joshua  W. Shaevitz '}
-{'difficulty': 34, 'startTime': '10:00:00', 'title': 'Integ/Quantitative Intro to Nat Sci II', 'date': '2014-11-14', 'endTime': '10:50:00', 'courseNumber': 'COS 233', 'id': 926, 'teacher': 'Joshua  W. Shaevitz '}
-{'difficulty': 49, 'startTime': '13:30:00', 'title': 'Computer Architecture', 'date': '2014-11-10', 'endTime': '14:50:00', 'courseNumber': 'COS 475', 'id': 586, 'teacher': 'David    Wentzlaff '}
-{'difficulty': 49, 'startTime': '13:30:00', 'title': 'Computer Architecture', 'date': '2014-11-12', 'endTime': '14:50:00', 'courseNumber': 'COS 475', 'id': 586, 'teacher': 'David    Wentzlaff '}
-{'difficulty': 30, 'startTime': '13:30:00', 'title': 'Computer Architecture', 'date': '2014-11-10', 'endTime': '14:50:00', 'courseNumber': 'COS 475', 'id': 586, 'teacher': 'David    Wentzlaff '}
-{'difficulty': 30, 'startTime': '13:30:00', 'title': 'Computer Architecture', 'date': '2014-11-12', 'endTime': '14:50:00', 'courseNumber': 'COS 475', 'id': 586, 'teacher': 'David    Wentzlaff '}
-{'difficulty': 44, 'startTime': '11:00:00', 'title': 'Innovating Across Tech, Bus, & Mkts', 'date': '2014-11-10', 'endTime': '12:20:00', 'courseNumber': 'COS 448', 'id': 371, 'teacher': 'Jaswinder  P. Singh '}
-{'difficulty': 44, 'startTime': '11:00:00', 'title': 'Innovating Across Tech, Bus, & Mkts', 'date': '2014-11-12', 'endTime': '12:20:00', 'courseNumber': 'COS 448', 'id': 371, 'teacher': 'Jaswinder  P. Singh '}
-{'difficulty': 40, 'startTime': '11:00:00', 'title': 'Honors Linear Algebra', 'date': '2014-11-11', 'endTime': '12:20:00', 'courseNumber': 'MAT 217', 'id': 1080, 'teacher': 'Peter  C. Sarnak '}
-{'difficulty': 40, 'startTime': '11:00:00', 'title': 'Honors Linear Algebra', 'date': '2014-11-13', 'endTime': '12:20:00', 'courseNumber': 'MAT 217', 'id': 1080, 'teacher': 'Peter  C. Sarnak '}
-{'difficulty': 25, 'startTime': '13:30:00', 'title': 'Intermediate Portuguese', 'date': '2014-11-10', 'endTime': '14:20:00', 'courseNumber': 'POR 109', 'id': 1359, 'teacher': None}
-{'difficulty': 25, 'startTime': '13:30:00', 'title': 'Intermediate Portuguese', 'date': '2014-11-12', 'endTime': '14:20:00', 'courseNumber': 'POR 109', 'id': 1359, 'teacher': None}
-{'difficulty': 25, 'startTime': '13:30:00', 'title': 'Intermediate Portuguese', 'date': '2014-11-14', 'endTime': '14:20:00', 'courseNumber': 'POR 109', 'id': 1359, 'teacher': None}
-{'difficulty': 3, 'startTime': '09:00:00', 'title': 'Epidemiology', 'date': '2014-11-10', 'endTime': '10:30:00', 'courseNumber': 'POP 508', 'id': 1685, 'teacher': 'Noreen    Goldman '}
-{'difficulty': 3, 'startTime': '09:00:00', 'title': 'Epidemiology', 'date': '2014-11-12', 'endTime': '10:30:00', 'courseNumber': 'POP 508', 'id': 1685, 'teacher': 'Noreen    Goldman '}
+{'difficulty': 37, 'startTime': '11:00:00', 'title': 'Advanced Programming Techniques', 'date': '2014-11-11', 'endTime': '12:20:00', 'courseNumber': 'COS 333', 'id': 362L, 'teacher': 'Brian  W. Kernighan '}
+{'difficulty': 37, 'startTime': '11:00:00', 'title': 'Advanced Programming Techniques', 'date': '2014-11-13', 'endTime': '12:20:00', 'courseNumber': 'COS 333', 'id': 362L, 'teacher': 'Brian  W. Kernighan '}
+{'difficulty': 42, 'startTime': '13:30:00', 'title': 'Great Moments in Computing', 'date': '2014-11-11', 'endTime': '14:50:00', 'courseNumber': 'COS 583', 'id': 380L, 'teacher': 'Margaret  R. Martonosi '}
+{'difficulty': 42, 'startTime': '13:30:00', 'title': 'Great Moments in Computing', 'date': '2014-11-13', 'endTime': '14:50:00', 'courseNumber': 'COS 583', 'id': 380L, 'teacher': 'Margaret  R. Martonosi '}
+{'difficulty': 39, 'startTime': '13:30:00', 'title': 'Extramural Research Internship', 'date': '2014-11-14', 'endTime': '14:50:00', 'courseNumber': 'COS 590', 'id': 382L, 'teacher': 'Thomas  A. Funkhouser '}
+{'difficulty': 43, 'startTime': '11:00:00', 'title': 'Programming Languages', 'date': '2014-11-10', 'endTime': '12:20:00', 'courseNumber': 'COS 510', 'id': 378L, 'teacher': 'Andrew  W. Appel '}
+{'difficulty': 43, 'startTime': '11:00:00', 'title': 'Programming Languages', 'date': '2014-11-12', 'endTime': '12:20:00', 'courseNumber': 'COS 510', 'id': 378L, 'teacher': 'Andrew  W. Appel '}
+{'difficulty': 21, 'startTime': '11:00:00', 'title': 'Theoretical Machine Learning', 'date': '2014-11-11', 'endTime': '12:20:00', 'courseNumber': 'COS 511', 'id': 379L, 'teacher': 'Elad  E. Hazan '}
+{'difficulty': 21, 'startTime': '11:00:00', 'title': 'Theoretical Machine Learning', 'date': '2014-11-13', 'endTime': '12:20:00', 'courseNumber': 'COS 511', 'id': 379L, 'teacher': 'Elad  E. Hazan '}
+{'difficulty': 24, 'startTime': '15:00:00', 'title': 'Computer and Electronic Music', 'date': '2014-11-10', 'endTime': '16:20:00', 'courseNumber': 'COS 314', 'id': 1148L, 'teacher': 'Jeffrey  O. Snyder '}
+{'difficulty': 46, 'startTime': '13:30:00', 'title': 'Interacting with Data', 'date': '2014-11-11', 'endTime': '14:50:00', 'courseNumber': 'COS 424', 'id': 366L, 'teacher': 'Barbara    Engelhardt   '}
+{'difficulty': 46, 'startTime': '13:30:00', 'title': 'Interacting with Data', 'date': '2014-11-13', 'endTime': '14:50:00', 'courseNumber': 'COS 424', 'id': 366L, 'teacher': 'Barbara    Engelhardt   '}
+{'difficulty': 21, 'startTime': '13:30:00', 'title': 'Introductory Drawing', 'date': '2014-11-12', 'endTime': '16:20:00', 'courseNumber': 'ARC 202', 'id': 1569L, 'teacher': None}
+{'difficulty': 8, 'startTime': '09:00:00', 'title': 'Calculus II', 'date': '2014-11-10', 'endTime': '09:50:00', 'courseNumber': 'MAT 104', 'id': 1062L, 'teacher': 'Adam  S. Levine '}
+{'difficulty': 8, 'startTime': '09:00:00', 'title': 'Calculus II', 'date': '2014-11-12', 'endTime': '09:50:00', 'courseNumber': 'MAT 104', 'id': 1062L, 'teacher': 'Adam  S. Levine '}
+{'difficulty': 8, 'startTime': '09:00:00', 'title': 'Calculus II', 'date': '2014-11-14', 'endTime': '09:50:00', 'courseNumber': 'MAT 104', 'id': 1062L, 'teacher': 'Adam  S. Levine '}
+{'difficulty': 24, 'startTime': '10:00:00', 'title': 'Reading Race as Publishing Praxis', 'date': '2014-11-11', 'endTime': '12:50:00', 'courseNumber': 'COM 522', 'id': 35L, 'teacher': 'Wendy  L. Belcher '}

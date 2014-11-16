@@ -120,8 +120,8 @@ for i in schedule:
             startTime = str(datetime.datetime.strptime(startTime, '%I:%M %p')).split()[1]
             endTime = str(datetime.datetime.strptime(endTime, '%I:%M %p')).split()[1]
             for d in days.split():
-                f.write(str({"id": int(cid), "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
+                f.write(str({"id": cid, "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
         except:
             for d in days.split():
-                f.write(str({"id": int(cid), "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
+                f.write(str({"id": cid, "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
 f.close()
