@@ -5,58 +5,84 @@
 	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 </head>
 <script type="text/javascript">
-
+var removedElements = [];
+var hash_of_professors = [];
 $(document).ready(function() {
 
-    // page is now ready, initialize the calendar...
-
-    $('#calendar').fullCalendar({
-    	dayClick: function(date, jsEvent, view) {
-    		alert('Clicked on: ' + date.format());
-    	},
-    	eventClick: function(calEvent, jsEvent, view) {
-    		alert('Event: ' + calEvent.title);
-    	},
-    	defaultView: 'agendaWeek',
-    	height: 600,
-    	header: {
-    		left:   'title',
-    		center: '',
-    		right:  'today agendaWeek month prev,next'
-    	},
-
-    	events: [
-    	<% (0..@hash_of_teachers.to_a.length-1).each do |i|%>
-    	{
-    		<% value = @hash_of_teachers.to_a[i][1] %>
-    		title: '<%= value["teacher"] %>',
-    		start: '<%= value["date"] + "T" + value["startTime"] %>',
-    		end: '<%= value["date"] + "T" + value["endTime"] %>'
-    	}<% if @hash_of_teachers.to_a.length-1 != i%>, <% end %>
-    	<% end %>
-    	]
-    })
+  $('#calendar').fullCalendar({
+   eventClick: function(calEvent, jsEvent, view) {
+  },
+  defaultView: 'agendaWeek',
+  height: 600,
+  header: {
+    left:   'title',
+    center: '',
+    right:  'today agendaWeek month prev,next'
+  },
+  events: [
+  <% (0..@hash_of_professors.to_a.length-1).each do |i|%>
+  {
+    <% value = @hash_of_professors.to_a[i][1] %> 
+    title: '<%= value["teacher"] %>',
+    id: '<%= @hash_of_professors.to_a[i][0]%>',
+    start: '<%= value["date"] + "T" + value["startTime"] %>',
+    end: '<%= value["date"] + "T" + value["endTime"] %>'
+  }<% if @hash_of_professors.to_a.length-1 != i%>, <% end %>
+  <% end %>
+  ]
+})
+  var object = document.getElementsByClassName('classList')
+  for (var i = object.length - 1; i >= 0; i--) {
+    object.item(i).addEventListener("click", function(){
+      toggleEvent(this.id);
+    });
+  };
 
 });
+
+function toggleEvent (id) {
+  if(removedElements[id] == true) //the element has been removed
+  {
+    //bring it back from hash_of_professors
+    var newEvents = [];
+    for (var i = hash_of_professors[id].length - 1; i >= 0; i--) {
+      newEvents.push({
+        title: hash_of_professors[id][i]["title"],
+        id: hash_of_professors[id][i]["id"],
+        start: hash_of_professors[id][i]["start"],
+        end: hash_of_professors[id][i]["end"]
+      });
+    };
+    $('#calendar').fullCalendar('addEventSource',{
+      events : newEvents
+    });
+    $('#calendar').fullCalendar('rerenderEvents');
+
+    removedElements[id] = false; //it's back to existing
+  }
+  else //it needs to be removed
+  {
+    hash_of_professors[id] = $('#calendar').fullCalendar('clientEvents', id);
+    $('#calendar').fullCalendar('removeEvents', id);
+    removedElements[id] = true; //it's been removed
+  }
+}
 </script>
-<h1>Homepage#index</h1>
-<p>Find me in app/views/homepage/index.html.erb</p>
-
-<div id='calendar' style="width:1000px; float:left; padding-right:20px;"></div>
-
-<div style="float:auto">
-	<%@hash_of_teachers.each do |class_number, other_data | %>
-
-	<%=class_number %>
-	<%end%>
-
-
-	Hello world</br>
-	this is</br>
-	a bunch</br>
-	of stuff</br>
-	in a </br>
-	long list </br>
-	that could be </br>
-	a list of courses
+<div class="page-header">
+  <h1> HP2014 </h1>
 </div>
+
+<body>
+
+  <div style="width: 100%; overflow: hidden;">
+    <div id='calendar' style="width: 900px; float: left;"> </div>
+    <div style="margin-left: 940px;">  <%@hash_of_professors.each do |id, other_data | %>
+
+     <p id="<%=id%>" class="classList"> Course: <%=other_data["title"] %> </br> </p>
+     <%end%>
+
+
+     
+     </div>
+   </div>
+ </body>

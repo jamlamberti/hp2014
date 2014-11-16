@@ -4,14 +4,14 @@ class HomepageController < ApplicationController
   end
 
   def fetch_data
-  	@hash_of_teachers = {}
+  	@hash_of_professors = {}
 
   	File.open("public/data.json", "r") do |file|
   		i = 0
   		file.each do |line|
   			tempHash = JSON.parse(line)
-  			courseNumber = tempHash.delete("courseNumber")
-  			@hash_of_teachers[courseNumber] = tempHash
+  			id = tempHash.delete("id")
+  			@hash_of_professors[id] = tempHash
   		end
   	end
   end

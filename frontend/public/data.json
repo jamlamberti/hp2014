@@ -1,5 +1,5 @@
-{"courseNumber": "1", "teacher": "Mr. Professor1", "startTime":"11:00", "endTime":"12:00:00", "date":"2014-11-13"}
-{"courseNumber": "2", "teacher": "Mr. Professor2", "startTime":"12:00", "endTime":"14:00:00", "date":"2014-11-14"}
-{"courseNumber": "3", "teacher": "Mr. Professor3", "startTime":"11:00", "endTime":"12:00:00", "date":"2014-11-14"}
-{"courseNumber": "4", "teacher": "Mr. Professor4", "startTime":"10:00", "endTime":"11:00:00", "date":"2014-11-14"}
-{"courseNumber": "5", "teacher": "Mr. Professor5", "startTime":"12:00", "endTime":"14:00:00", "date":"2014-11-13"}
+{"id": "1", "title": "course 1","courseNumber": "1", "teacher": "Mr. Professor1", "startTime":"11:00", "endTime":"12:00:00", "date":"2014-11-13"}
+{"id": "2", "title": "course 2","courseNumber": "2", "teacher": "Mr. Professor2", "startTime":"12:00", "endTime":"14:00:00", "date":"2014-11-14"}
+{"id": "3", "title": "course 3","courseNumber": "3", "teacher": "Mr. Professor3", "startTime":"11:00", "endTime":"12:00:00", "date":"2014-11-14"}
+{"id": "4", "title": "course 4","courseNumber": "4", "teacher": "Mr. Professor4", "startTime":"10:00", "endTime":"11:00:00", "date":"2014-11-14"}
+{"id": "5", "title": "course 5","courseNumber": "5", "teacher": "Mr. Professor5", "startTime":"12:00", "endTime":"14:00:00", "date":"2014-11-13"}

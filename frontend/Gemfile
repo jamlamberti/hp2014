@@ -43,3 +43,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'fullcalendar-rails'
 #moments needed as dependency
 gem 'momentjs-rails'
+#bootstrap to make it look less shitty
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
