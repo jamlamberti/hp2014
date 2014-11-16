@@ -11,6 +11,8 @@ import datetime
 today = datetime.datetime.today().weekday()
 if today == 0:
     monday = datetime.datetime.today()
+elif today == 6:
+    monday = datetime.datetime.today()+datetime.timedelta(days=1)
 else:
     monday = datetime.date.today()-datetime.timedelta(days=today)
 td1 = datetime.timedelta(days=1)
