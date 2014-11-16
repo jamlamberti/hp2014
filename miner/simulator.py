@@ -7,7 +7,32 @@ except:
     parentdir = os.path.dirname(currentdir)
     sys.path.insert(0,parentdir)
     import db_manager
-
+import datetime
+today = datetime.datetime.today().weekday()
+if today == 0:
+    monday = datetime.datetime.today()
+else:
+    monday = datetime.date.today()-datetime.timedelta(days=today)
+td1 = datetime.timedelta(days=1)
+tuesday = monday+td1
+wednesday = tuesday + td1
+thursday = wednesday + td1
+friday = thursday + td1
+saturday = friday + td1
+sunday = monday - td1
+def d2date(d):
+    temp = None
+    if d == 'M':
+        temp = monday
+    elif d == 'T':
+        temp = tuesday
+    elif d == 'W':
+        temp = wednesday
+    elif d == 'Th':
+        temp = thursday
+    else:
+        temp = friday
+    return temp.strftime("%Y-%m-%d")
 courses_by_dept = {}
 all_courses = []
 db = db_manager.DatabaseAccess('localhost', 'root', 'root', 'grades')
@@ -23,7 +48,10 @@ for row in r:
     #print sql%prof
     r = db.execute_all(sql%prof)
     #print r
-    overall = r[0][0]
+    try:
+        overall = r[0][0]
+    except:
+        overall = int(random.random()*100)
     if course not in courses_by_dept:
         courses_by_dept[course] = []
     courses_by_dept[course].append([cid, prof, overall])
@@ -47,9 +75,9 @@ for key in depts:
 # Compute statistics for each prof.
 #print all_courses
 #print courses_by_dept
-courses_per_semester = 6
-in_major = 4
-out_of_major = 2
+courses_per_semester = 4
+in_major = 3
+out_of_major = 1
 ugrads = 5000
 schedules = []
 for i in range(ugrads):
@@ -60,5 +88,37 @@ for i in range(ugrads):
     for j in range(out_of_major):
         classes.append(random.choice(all_courses))
     schedules.append([major, classes])
-print schedules
+#print schedules
+major = "COS"
+schedule = []
+for i in range(7):
+    c = random.choice(courses_by_dept[major])
+    while c[0] in schedule:
+        c = random.choice(courses_by_dept[major])
+    schedule.append(c)
+for i in range(3):
+    c = random.choice(all_courses)
+    while c[0] in schedule:
+        c = random.choice(all_courses)
+    schedule.append(c)
+f = open('data.json', 'w')
+# Convert schedule to JSON
+for i in schedule:
+    sql = "SELECT * from courses where id=%s"%i[0]
+    r = db.execute_all(sql)
+    cid, crn, course, title, dist, sect, days, t, prof = r[0]
+    sql = "SELECT * from postparse where prof='%s'"%prof
+    r = db.execute_all(sql)
+    try:
+        difficulty = int(r[0][0])
+    except:
+        difficulty = int(random.random()*50)
+        startTime, endTime = t.split('-')
+        startTime = startTime.strip().upper()
+        endTime = endTime.strip().upper()
+        startTime = str(datetime.datetime.strptime(startTime, '%I:%M %p')).split()[1]
+        endTime = str(datetime.datetime.strptime(endTime, '%I:%M %p')).split()[1]
 
+    for d in days.split():
+        f.write(str({"id": int(cid), "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
+f.close()
