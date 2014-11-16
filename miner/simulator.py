@@ -101,7 +101,7 @@ for i in range(3):
     while c[0] in schedule:
         c = random.choice(all_courses)
     schedule.append(c)
-f = open('data.json', 'w')
+f = open('frontend/public/data.json', 'w')
 # Convert schedule to JSON
 for i in schedule:
     sql = "SELECT * from courses where id=%s"%i[0]
@@ -113,12 +113,15 @@ for i in schedule:
         difficulty = int(r[0][0])
     except:
         difficulty = int(random.random()*50)
-        startTime, endTime = t.split('-')
-        startTime = startTime.strip().upper()
-        endTime = endTime.strip().upper()
-        startTime = str(datetime.datetime.strptime(startTime, '%I:%M %p')).split()[1]
-        endTime = str(datetime.datetime.strptime(endTime, '%I:%M %p')).split()[1]
-
-    for d in days.split():
-        f.write(str({"id": int(cid), "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
+        try:
+            startTime, endTime = t.split('-')
+            startTime = startTime.strip().upper()
+            endTime = endTime.strip().upper()
+            startTime = str(datetime.datetime.strptime(startTime, '%I:%M %p')).split()[1]
+            endTime = str(datetime.datetime.strptime(endTime, '%I:%M %p')).split()[1]
+            for d in days.split():
+                f.write(str({"id": int(cid), "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
+        except:
+            for d in days.split():
+                f.write(str({"id": int(cid), "title": title, "courseNumber": course, "teacher": prof, "difficulty": difficulty, "date": d2date(d), "startTime": startTime, "endTime": endTime}) + "\n")
 f.close()
